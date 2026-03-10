@@ -42,12 +42,17 @@ document.getElementById("next").onclick=()=>{
 
 if(pageNum>=pdfDoc.numPages) return
 
-canvas.style.transform="translateX(-80px)"
+canvas.style.transform="translateX(-60px)"
+
 setTimeout(()=>{
+
 canvas.style.transform="translateX(0)"
+
 pageNum++
+
 renderPage(pageNum)
-},300)
+
+},200)
 
 }
 
@@ -55,12 +60,17 @@ document.getElementById("prev").onclick=()=>{
 
 if(pageNum<=1) return
 
-canvas.style.transform="translateX(80px)"
+canvas.style.transform="translateX(60px)"
+
 setTimeout(()=>{
+
 canvas.style.transform="translateX(0)"
+
 pageNum--
+
 renderPage(pageNum)
-},300)
+
+},200)
 
 }
 
