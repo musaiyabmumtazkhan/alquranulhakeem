@@ -1,4 +1,4 @@
-const url = "parah-01.pdf"
+const url = "Parah-01.pdf"
 
 let pdfDoc=null
 let pageNum=1
@@ -60,5 +60,6 @@ renderPage(pageNum)
 if('serviceWorker' in navigator){
 
 navigator.serviceWorker.register("sw.js")
+
 
 }
