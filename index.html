@@ -6,75 +6,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Al Quran Reader</title>
+<title>Al Quran</title>
+
+<link rel="manifest" href="manifest.json">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<style>
-
-body{
-margin:0;
-font-family:system-ui;
-background:#f8fafc;
-display:flex;
-flex-direction:column;
-height:100vh;
-}
-
-header{
-background:white;
-padding:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
-}
-
-h1{
-font-size:18px;
-margin:0;
-}
-
-select{
-padding:6px;
-border-radius:6px;
-border:1px solid #ddd;
-}
-
-#viewer{
-flex:1;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-background:#f1f5f9;
-}
-
-canvas{
-max-width:100%;
-max-height:100%;
-transition:transform .4s ease;
-border-radius:6px;
-}
-
-#nav{
-background:white;
-display:flex;
-justify-content:space-between;
-padding:10px;
-box-shadow:0 -2px 10px rgba(0,0,0,.1);
-}
-
-button{
-background:#16a34a;
-color:white;
-border:none;
-padding:10px 18px;
-border-radius:8px;
-font-size:16px;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -82,50 +20,17 @@ font-size:16px;
 
 <header>
 
-<h1>📖 Quran Reader</h1>
+<span class="title">📖 Al Quran</span>
 
-<select id="parah">
+<select id="parah"></select>
 
-<option value="Parah-01.pdf">Parah 1</option>
-<option value="Parah-02.pdf">Parah 2</option>
-<option value="Parah-03.pdf">Parah 3</option>
-<option value="Parah-04.pdf">Parah 4</option>
-<option value="Parah-05.pdf">Parah 5</option>
-<option value="Parah-06.pdf">Parah 6</option>
-<option value="Parah-07.pdf">Parah 7</option>
-<option value="Parah-08.pdf">Parah 8</option>
-<option value="Parah-09.pdf">Parah 9</option>
-<option value="Parah-10.pdf">Parah 10</option>
-
-<option value="Parah-11.pdf">Parah 11</option>
-<option value="Parah-12.pdf">Parah 12</option>
-<option value="Parah-13.pdf">Parah 13</option>
-<option value="Parah-14.pdf">Parah 14</option>
-<option value="Parah-15.pdf">Parah 15</option>
-<option value="Parah-16.pdf">Parah 16</option>
-<option value="Parah-17.pdf">Parah 17</option>
-<option value="Parah-18.pdf">Parah 18</option>
-<option value="Parah-19.pdf">Parah 19</option>
-<option value="Parah-20.pdf">Parah 20</option>
-
-<option value="Parah-21.pdf">Parah 21</option>
-<option value="Parah-22.pdf">Parah 22</option>
-<option value="Parah-23.pdf">Parah 23</option>
-<option value="Parah-24.pdf">Parah 24</option>
-<option value="Parah-25.pdf">Parah 25</option>
-<option value="Parah-26.pdf">Parah 26</option>
-<option value="Parah-27.pdf">Parah 27</option>
-<option value="Parah-28.pdf">Parah 28</option>
-<option value="Parah-29.pdf">Parah 29</option>
-<option value="Parah-30.pdf">Parah 30</option>
-
-</select>
+<button id="mode">🌙</button>
 
 </header>
 
 <div id="viewer">
 
-<canvas id="pdf-render"></canvas>
+<canvas id="pdf"></canvas>
 
 </div>
 
@@ -133,7 +38,7 @@ font-size:16px;
 
 <button id="prev">◀</button>
 
-<span id="page-num"></span>
+<span id="page"></span>
 
 <button id="next">▶</button>
 
