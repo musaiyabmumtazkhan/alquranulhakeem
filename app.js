@@ -8,7 +8,6 @@ const ctx=canvas.getContext("2d")
 const pageLabel=document.getElementById("page")
 const parahSelect=document.getElementById("parah")
 
-// create 30 parah list automatically
 for(let i=1;i<=30;i++){
 
 let num=i.toString().padStart(2,"0")
@@ -80,34 +79,6 @@ renderPage(pageNum)
 
 }
 
-function prevPage(){
-
-if(pageNum<=1) return
-
-canvas.style.transform="translateX(80px)"
-
-setTimeout(()=>{
-
-canvas.style.transform="translateX(0)"
-
-pageNum--
-
-renderPage(pageNum)
-
-},150)
-
-}
-
-document.getElementById("next").onclick=nextPage
-document.getElementById("prev").onclick=prevPage
-
-parahSelect.addEventListener("change",e=>{
-
-loadPDF(e.target.value)
-
-})
-
-// swipe gesture
 let startX=0
 
 document.addEventListener("touchstart",e=>{
@@ -120,13 +91,23 @@ document.addEventListener("touchend",e=>{
 
 let endX=e.changedTouches[0].clientX
 
-if(startX-endX>50) nextPage()
+// Arabic reading direction
+// swipe LEFT → RIGHT = next page
 
-if(endX-startX>50) prevPage()
+if(endX-startX>50){
+
+nextPage()
+
+}
 
 })
 
-// night mode
+parahSelect.addEventListener("change",e=>{
+
+loadPDF(e.target.value)
+
+})
+
 document.getElementById("mode").onclick=()=>{
 
 document.body.classList.toggle("dark")
