@@ -43,14 +43,22 @@ function renderPage(num){
 
 pdfDoc.getPage(num).then(page=>{
 
-const viewport=page.getViewport({scale:1.7})
+let viewport=page.getViewport({scale:1})
+
+let screenHeight=window.innerHeight-120
+
+let scale=screenHeight/viewport.height
+
+viewport=page.getViewport({scale:scale})
 
 canvas.height=viewport.height
 canvas.width=viewport.width
 
 page.render({
+
 canvasContext:ctx,
 viewport:viewport
+
 })
 
 pageLabel.textContent=`${num} / ${pdfDoc.numPages}`
@@ -65,7 +73,7 @@ function nextPage(){
 
 if(pageNum>=pdfDoc.numPages) return
 
-canvas.style.transform="translateX(-80px)"
+canvas.style.transform="translateX(-60px)"
 
 setTimeout(()=>{
 
@@ -75,7 +83,7 @@ pageNum++
 
 renderPage(pageNum)
 
-},150)
+},120)
 
 }
 
@@ -91,10 +99,7 @@ document.addEventListener("touchend",e=>{
 
 let endX=e.changedTouches[0].clientX
 
-// Arabic reading direction
-// swipe LEFT → RIGHT = next page
-
-if(endX-startX>50){
+if(endX-startX>60){
 
 nextPage()
 
@@ -107,11 +112,5 @@ parahSelect.addEventListener("change",e=>{
 loadPDF(e.target.value)
 
 })
-
-document.getElementById("mode").onclick=()=>{
-
-document.body.classList.toggle("dark")
-
-}
 
 loadPDF(currentPDF)
