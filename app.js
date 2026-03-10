@@ -1,48 +1,73 @@
-const pageFlip = new St.PageFlip(
+let pdfDoc=null
+let pageNum=1
+let currentPDF="Parah-01.pdf"
 
-document.getElementById("book"),
+const canvas=document.getElementById("pdf-render")
+const ctx=canvas.getContext("2d")
+const pageNumSpan=document.getElementById("page-num")
 
-{
+function loadPDF(file){
 
-width:400,
-height:600,
+currentPDF=file
+pageNum=1
 
-showCover:true,
-
-usePortrait:true,
-
-maxShadowOpacity:0.5,
-
-mobileScrollSupport:false,
-
-startPage:0,
-
-drawShadow:true,
-
-flippingTime:800,
-
-useMouseEvents:true,
-
-swipeDistance:30,
+pdfjsLib.getDocument(file).promise.then(pdf=>{
+pdfDoc=pdf
+renderPage(pageNum)
+})
 
 }
 
-)
+function renderPage(num){
 
-pageFlip.loadFromHTML(document.querySelectorAll(".page"))
+pdfDoc.getPage(num).then(page=>{
 
-document.addEventListener("keydown",e=>{
+const viewport=page.getViewport({scale:1.6})
 
-if(e.key==="ArrowLeft"){
+canvas.height=viewport.height
+canvas.width=viewport.width
 
-pageFlip.flipNext()
+page.render({
+canvasContext:ctx,
+viewport:viewport
+})
 
-}
-
-if(e.key==="ArrowRight"){
-
-pageFlip.flipPrev()
-
-}
+pageNumSpan.textContent=num+" / "+pdfDoc.numPages
 
 })
+
+}
+
+document.getElementById("next").onclick=()=>{
+
+if(pageNum>=pdfDoc.numPages) return
+
+canvas.style.transform="translateX(-80px)"
+setTimeout(()=>{
+canvas.style.transform="translateX(0)"
+pageNum++
+renderPage(pageNum)
+},300)
+
+}
+
+document.getElementById("prev").onclick=()=>{
+
+if(pageNum<=1) return
+
+canvas.style.transform="translateX(80px)"
+setTimeout(()=>{
+canvas.style.transform="translateX(0)"
+pageNum--
+renderPage(pageNum)
+},300)
+
+}
+
+document.getElementById("parah").addEventListener("change",e=>{
+
+loadPDF(e.target.value)
+
+})
+
+loadPDF(currentPDF)
