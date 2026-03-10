@@ -1,65 +1,48 @@
-const url = "Parah-01.pdf"
+const pageFlip = new St.PageFlip(
 
-let pdfDoc=null
-let pageNum=1
-let canvas=document.getElementById("pdf-render")
-let ctx=canvas.getContext("2d")
+document.getElementById("book"),
 
-const pageNumSpan=document.getElementById("page-num")
+{
 
-pdfjsLib.getDocument(url).promise.then(function(pdf){
+width:400,
+height:600,
 
-pdfDoc=pdf
+showCover:true,
 
-renderPage(pageNum)
+usePortrait:true,
 
-})
+maxShadowOpacity:0.5,
 
-function renderPage(num){
+mobileScrollSupport:false,
 
-pdfDoc.getPage(num).then(function(page){
+startPage:0,
 
-let viewport=page.getViewport({scale:1.5})
+drawShadow:true,
 
-canvas.height=viewport.height
-canvas.width=viewport.width
+flippingTime:800,
 
-let renderContext={
-canvasContext:ctx,
-viewport:viewport
-}
+useMouseEvents:true,
 
-page.render(renderContext)
-
-pageNumSpan.textContent=num + " / " + pdfDoc.numPages
-
-})
+swipeDistance:30,
 
 }
 
-document.getElementById("next").addEventListener("click",function(){
+)
 
-if(pageNum>=pdfDoc.numPages) return
+pageFlip.loadFromHTML(document.querySelectorAll(".page"))
 
-pageNum++
+document.addEventListener("keydown",e=>{
 
-renderPage(pageNum)
+if(e.key==="ArrowLeft"){
 
-})
-
-document.getElementById("prev").addEventListener("click",function(){
-
-if(pageNum<=1) return
-
-pageNum--
-
-renderPage(pageNum)
-
-})
-
-if('serviceWorker' in navigator){
-
-navigator.serviceWorker.register("sw.js")
-
+pageFlip.flipNext()
 
 }
+
+if(e.key==="ArrowRight"){
+
+pageFlip.flipPrev()
+
+}
+
+})
