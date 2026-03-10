@@ -10,159 +10,40 @@
 
 <link rel="manifest" href="manifest.json">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/page-flip/dist/page-flip.min.css">
 
-<style>
-
-body{
-margin:0;
-font-family:sans-serif;
-background:#0f172a;
-color:white;
-display:flex;
-flex-direction:column;
-height:100vh;
-}
-
-header{
-text-align:center;
-padding:15px;
-font-size:20px;
-background:#020617;
-}
-
-#viewer{
-flex:1;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-}
-
-canvas{
-max-width:100%;
-max-height:100%;
-border-radius:12px;
-box-shadow:0 0 20px rgba(0,0,0,0.5);
-}
-
-#nav{
-display:flex;
-justify-content:space-between;
-padding:10px;
-background:#020617;
-}
-
-button{
-background:#22c55e;
-border:none;
-padding:12px 20px;
-font-size:18px;
-border-radius:10px;
-color:white;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header>📖 Quran Reader</header>
+<header>
 
-<div id="viewer">
-<canvas id="pdf-render"></canvas>
+📖 Quran Reader
+
+<select id="surah">
+<option>Surah</option>
+</select>
+
+<select id="parah">
+<option>Parah</option>
+</select>
+
+</header>
+
+<div id="book">
+
+<div class="page"><img src="pages/001.jpg"></div>
+<div class="page"><img src="pages/002.jpg"></div>
+<div class="page"><img src="pages/003.jpg"></div>
+
 </div>
 
-<div id="nav">
-<button id="prev">◀</button>
-<span id="page-num"></span>
-<button id="next">▶</button>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/page-flip.browser.min.js"></script>
 
-<script>
-
-const url = "Parah-01.pdf"
-
-let pdfDoc=null
-let pageNum=1
-
-const canvas=document.getElementById("pdf-render")
-const ctx=canvas.getContext("2d")
-const pageNumSpan=document.getElementById("page-num")
-
-pdfjsLib.getDocument(url).promise.then(pdf=>{
-pdfDoc=pdf
-renderPage(pageNum)
-})
-
-function renderPage(num){
-
-pdfDoc.getPage(num).then(page=>{
-
-const viewport=page.getViewport({scale:1.6})
-
-canvas.height=viewport.height
-canvas.width=viewport.width
-
-page.render({
-canvasContext:ctx,
-viewport:viewport
-})
-
-pageNumSpan.textContent=num + " / " + pdfDoc.numPages
-
-})
-
-}
-
-document.getElementById("next").onclick=()=>{
-if(pageNum>=pdfDoc.numPages) return
-pageNum++
-renderPage(pageNum)
-}
-
-document.getElementById("prev").onclick=()=>{
-if(pageNum<=1) return
-pageNum--
-renderPage(pageNum)
-}
-
-let startX=0
-
-document.addEventListener("touchstart",e=>{
-startX=e.touches[0].clientX
-})
-
-document.addEventListener("touchend",e=>{
-
-let endX=e.changedTouches[0].clientX
-
-if(endX-startX>50){
-
-if(pageNum>1){
-pageNum--
-renderPage(pageNum)
-}
-
-}
-
-if(startX-endX>50){
-
-if(pageNum<pdfDoc.numPages){
-pageNum++
-renderPage(pageNum)
-}
-
-}
-
-})
-
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js")
-}
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
