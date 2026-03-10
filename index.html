@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Quran Reader</title>
+
+<link rel="manifest" href="manifest.json">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+📖 Quran Reader
+</header>
+
+<div id="viewer">
+
+<canvas id="pdf-render"></canvas>
+
+</div>
+
+<div id="nav">
+
+<button id="prev">◀</button>
+
+<span id="page-num"></span>
+
+<button id="next">▶</button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
